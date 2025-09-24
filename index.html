@@ -208,7 +208,7 @@
     // Preloader: espera al menos 2s antes de desaparecer, luego lo remueve del DOM
     window.addEventListener("load", () => {
       const preloader = document.getElementById("preloader");
-      const MIN_MS = 2000; // tiempo mínimo visible
+      const MIN_MS = 1500; // tiempo mínimo visible
       setTimeout(() => {
         preloader.classList.add("hidden");
         // después de la transición, quitar el elemento para evitar capas invisibles
