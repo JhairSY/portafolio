@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Navbar - Portafolio</title>
+  <title>Portafolio - Jhair SY</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* --- VARIABLES --- */
     :root{
       --bg: #0B0C10;
       --primary: #45A29E;
@@ -15,28 +14,24 @@
       --accent: #FFD369;
       --text: #E5E5E5;
       --muted: #9AA0A6;
-      --glass: rgba(255,255,255,0.02);
+      --glass: rgba(255,255,255,0.05);
     }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:'Inter',system-ui,Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
-
-    /* --- PRELOADER (centrado robusto) --- */
-    /* inset:0 es equivalente a top:0;right:0;bottom:0;left:0 */
+    /* --- Preloader --- */
     #preloader {
       position: fixed;
       inset: 0;
       background: var(--bg);
       display: grid;
-      place-items: center;            /* esto centra perfectamente */
+      place-items: center;
       z-index: 2000;
       transition: opacity 0.8s ease, visibility 0.8s ease;
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
     }
-    /* contenedor del contenido del loader */
     .loader-content {
       display: flex;
       flex-direction: column;
@@ -44,19 +39,16 @@
       justify-content: center;
       gap: 20px;
       text-align: center;
-      padding: 8px 18px;
     }
     .loader-logo {
-      display: block;   /* importante para centrar con margin auto si hace falta */
+      display: block;
       width: 160px;
       height: 160px;
       object-fit: contain;
-      margin: 0;
       animation: pulse 1.8s infinite ease-in-out;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,0.5));
     }
     .loader-text {
-      margin: 0;
       font-family: 'Orbitron', sans-serif;
       font-size: 34px;
       font-weight: 700;
@@ -64,13 +56,11 @@
       letter-spacing: 3px;
       animation: flicker 2.2s infinite alternate;
     }
-    /* esconder el preloader */
     #preloader.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
-
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 0.85; }
       50%     { transform: scale(1.12); opacity: 1; }
@@ -80,61 +70,76 @@
       100% { opacity: 0.7; text-shadow: none; }
     }
 
-    /* --- NAVBAR --- */
+    /* --- Navbar Futurista --- */
     .header{
       position:fixed; top:0; left:0; right:0;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background: rgba(11,12,16,0.9);
+      backdrop-filter: blur(8px);
       height:72px;
       display:flex; align-items:center; justify-content:space-between;
       padding:0 24px; z-index:999;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
+    .header.scrolled {height:60px; background: rgba(11,12,16,0.95);}
     .container{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
     .logo{display:flex; align-items:center; gap:12px}
-    .logo img{width:48px;height:48px;border-radius:10px;object-fit:cover;display:block;box-shadow:0 6px 16px rgba(0,0,0,0.4)}
-    .site-title{font-weight:700;color:var(--bg); font-family:'Orbitron', 'Inter'; letter-spacing:0.5px}
-    .nav{display:flex; align-items:center; gap:24px}
-    .nav-links{display:flex; gap:20px; list-style:none; margin:0; padding:0; align-items:center}
+    .logo img{width:48px;height:48px;border-radius:10px;object-fit:cover;box-shadow:0 0 12px rgba(69,162,158,0.8)}
+    .site-title{font-weight:700;color:var(--primary); font-family:'Orbitron', 'Inter'; letter-spacing:0.5px}
+    .nav-links{display:flex; gap:20px; list-style:none}
     .nav-links a{
-      color:var(--bg); text-decoration:none; font-weight:600; padding:8px 12px; border-radius:8px;
-      transition:all .18s ease;
+      color:var(--text); text-decoration:none; font-weight:600; position:relative; padding:6px 0;
+      transition: color 0.3s ease;
     }
-    .nav-links a:hover, .nav-links a:focus{
-      transform:translateY(-3px);
-      box-shadow:0 8px 30px rgba(69,162,158,0.18);
-      outline:none;
+    .nav-links a::after{
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background:var(--primary); transition:width 0.3s ease;
+      box-shadow:0 0 8px var(--primary);
     }
-    .btn-cta{
-      background:var(--accent); color:var(--bg); padding:8px 14px; border-radius:8px; font-weight:700; text-decoration:none;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    .nav-links a:hover::after{width:100%}
+    .nav-links a:hover{color:var(--accent)}
+
+    /* --- Hamburger --- */
+    .hamburger{
+      display:none; flex-direction:column; gap:6px;
+      width:28px; cursor:pointer; z-index:1001;
     }
-    .hamburger{display:none; background:transparent; border:0; cursor:pointer; width:48px;height:48px;border-radius:10px; align-items:center; justify-content:center}
+    .hamburger span{
+      display:block; height:3px; width:100%; background:var(--text); border-radius:2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+    /* --- Mobile menu --- */
     .mobile-menu{
-      position: fixed; top:72px; right:0; bottom:0; width:280px; background: linear-gradient(180deg,var(--bg), rgba(11,12,16,0.98));
-      transform:translateX(100%); transition: transform .28s cubic-bezier(.06,.86,.24,1); padding:24px; box-shadow:0 20px 50px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:18px;
+      position: fixed; top:0; right:0; bottom:0; width:280px;
+      background: rgba(20,20,25,0.75); backdrop-filter: blur(10px);
+      transform:translateX(100%); transition: transform .35s cubic-bezier(.06,.86,.24,1);
+      padding:90px 24px; box-shadow:-4px 0 30px rgba(0,0,0,0.6);
+      display:flex; flex-direction:column; gap:24px; z-index:1000;
     }
     .mobile-menu.open{transform:translateX(0)}
-    .mobile-menu a{color:var(--text); text-decoration:none; font-weight:600; padding:10px;border-radius:8px}
-    .mobile-menu a:hover{background:var(--glass)}
-    .overlay{display:none; position:fixed; inset:72px 0 0 0; background:rgba(0,0,0,0.4); z-index:90; transition:opacity .2s}
+    .mobile-menu a{color:var(--text); text-decoration:none; font-weight:600; font-size:18px; position:relative}
+    .mobile-menu a::after{
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background:var(--primary); transition:width 0.3s ease;
+    }
+    .mobile-menu a:hover::after{width:100%}
+    .overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:900}
     .overlay.show{display:block}
 
+    /* Responsive */
     @media (max-width: 768px){
-      .nav-links, .btn-cta{display:none}
+      .nav-links{display:none}
       .hamburger{display:flex}
-      .header{height:64px}
-      .mobile-menu{top:64px}
-    }
-    @media (min-width: 769px){
-      .site-title{font-size:18px}
-      .nav-links a{color: rgba(255,255,255,0.95)}
-      .nav-links a:hover{color:var(--accent)}
     }
   </style>
 </head>
 <body>
 
-  <!-- PRELOADER -->
+  <!-- Preloader -->
   <div id="preloader" aria-hidden="false">
     <div class="loader-content" role="img" aria-label="Cargando — Jhair SY">
       <img src="imagenes/logo.png" alt="Logo Jhair SY" class="loader-logo">
@@ -142,82 +147,73 @@
     </div>
   </div>
 
-  <!-- HEADER -->
+  <!-- Header -->
   <header class="header" role="banner">
-    <div class="container" role="navigation" aria-label="Menú principal">
+    <div class="container">
       <div class="logo">
         <img src="imagenes/logo.png" alt="Mi logo" />
         <div class="site-title">Jhair SY</div>
       </div>
-
-      <nav class="nav" role="navigation" aria-label="Enlaces de navegación">
+      <nav class="nav">
         <ul class="nav-links">
           <li><a href="#home">Inicio</a></li>
           <li><a href="#about">Sobre mí</a></li>
           <li><a href="#projects">Proyectos</a></li>
           <li><a href="#contact">Contacto</a></li>
         </ul>
-        <a href="#projects" class="btn-cta">Ver proyectos</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
-          <img src="imagenes/icon_menu.png" alt="Menú" style="width:28px; height:28px;">
-        </button>
+        <div class="hamburger" id="hamburger" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </nav>
     </div>
   </header>
 
-  <!-- MOBILE MENU + OVERLAY -->
-  <div class="overlay" id="overlay" tabindex="-1"></div>
-  <aside id="mobile-menu" class="mobile-menu" role="menu" aria-hidden="true">
-    <a href="#home" role="menuitem">Inicio</a>
-    <a href="#about" role="menuitem">Sobre mí</a>
-    <a href="#projects" role="menuitem">Proyectos</a>
-    <a href="#contact" role="menuitem">Contacto</a>
-    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:8px 0">
-    <a href="#contact" class="btn-cta" style="display:inline-block; text-align:center;">Contacto</a>
+  <!-- Mobile menu + overlay -->
+  <div class="overlay" id="overlay"></div>
+  <aside id="mobile-menu" class="mobile-menu">
+    <a href="#home">Inicio</a>
+    <a href="#about">Sobre mí</a>
+    <a href="#projects">Proyectos</a>
+    <a href="#contact">Contacto</a>
   </aside>
 
-  <!-- SCRIPTS -->
   <script>
-    // toggle mobile menu
+    // Navbar scroll effect
+    const header = document.querySelector(".header");
+    window.addEventListener("scroll", () => {
+      if(window.scrollY > 30){ header.classList.add("scrolled"); }
+      else{ header.classList.remove("scrolled"); }
+    });
+
+    // Hamburger + mobile menu
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const overlay = document.getElementById('overlay');
 
-    function openMenu(){
-      mobileMenu.classList.add('open');
-      overlay.classList.add('show');
-      hamburger.setAttribute('aria-expanded','true');
-      mobileMenu.setAttribute('aria-hidden','false');
-    }
-    function closeMenu(){
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      overlay.classList.toggle('show');
+    });
+    overlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
       mobileMenu.classList.remove('open');
       overlay.classList.remove('show');
-      hamburger.setAttribute('aria-expanded','false');
-      mobileMenu.setAttribute('aria-hidden','true');
-    }
-    hamburger.addEventListener('click', () => {
-      const opened = hamburger.getAttribute('aria-expanded') === 'true';
-      opened ? closeMenu() : openMenu();
     });
-    overlay.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMenu(); });
-    window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
-  </script>
 
-  <script>
-    // Preloader: espera al menos 2s antes de desaparecer, luego lo remueve del DOM
+    // Preloader
     window.addEventListener("load", () => {
       const preloader = document.getElementById("preloader");
-      const MIN_MS = 1500; // tiempo mínimo visible
+      const MIN_MS = 2000; // mínimo 2 segundos
       setTimeout(() => {
         preloader.classList.add("hidden");
-        // después de la transición, quitar el elemento para evitar capas invisibles
         setTimeout(() => {
           if (preloader && preloader.parentNode) preloader.parentNode.removeChild(preloader);
-        }, 900); // debe ser >= transition duration (0.8s)
+        }, 900);
       }, MIN_MS);
     });
   </script>
-
 </body>
 </html>
